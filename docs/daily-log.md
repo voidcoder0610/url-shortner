@@ -1,0 +1,6 @@
+## Day 1 — 17 September 2026
+**Built:** Planned the URL shortener architecture on paper, mapped the write flow (shortening) and read flow (redirection), and initialized the Git repository structure with backend, frontend, and docs folders.
+**Broke / debugged:** Clarified the difference between local Git tracking and remote GitHub hosting, navigated Windows PowerShell to run repository setup commands, and ensured the diagram was properly tracked in the `docs/` folder.
+**Learned:** Explored how APIs and databases interact. Understood that while MD5 or random strings can generate collisions (requiring retry loops or collision checks), maintaining an auto-incrementing counter converted to Base62 mathematically guarantees unique short codes. Also learned how large-scale distributed systems use ZooKeeper to distribute ranges of counter tokens across multiple servers to prevent overlap and handle server failures.
+**Open question:** How does PostgreSQL manage the auto-incrementing counter locally for our backend, and how will FastAPI talk to Postgres tomorrow?
+**Prompt log:** None today (Day 1 was conceptual planning, architecture design, and repository setup).
