@@ -11,3 +11,10 @@
 **Learned:** Why Redis (RAM) is placed in front of Postgres (Disk): high-traffic links can be read in microseconds from RAM without hammering the database disk on thousands of concurrent clicks. Also learned that a `ForeignKey` links click events to their parent link, enforcing referential integrity and preventing orphan data.
 **Open question:** How will FastAPI use these models tomorrow to receive HTTP requests and turn them into database entries?
 **Prompt log:** Generated `database.py` and `models.py` with the AI mentor using SQLAlchemy. Asked mentor for an analogy-driven breakdown of `ForeignKey` and `nullable=False` before committing the code.
+
+## Day 3 — 23 September 2026
+**Built:** Implemented Base62 encoder/decoder in `utils.py`, Redis cache helper in `cache.py`, Pydantic request/response schemas in `schemas.py`, and built both core endpoints: `POST /shorten` and `GET /r/{short_code}` in `routers/`. Tested live via Swagger UI docs and verified real browser redirects to Wikipedia.
+**Broke / debugged:** Encountered `ModuleNotFoundError` because the virtual environment was inactive in a new terminal; diagnosed PowerShell execution policy restrictions and reactivated `venv`. Debugged unsaved file state (`main.py •`) and walked through mechanical line-by-line breakdown of chained SQLAlchemy queries.
+**Learned:** Why HTTP 307 Temporary Redirect is essential for URL shorteners (prevents the browser from caching the redirect locally so our server can process every visit). Also learned how SQLAlchemy's `.query().filter().first()` returns `None` on missing records, allowing our `404 Not Found` guard to intercept invalid links cleanly.
+**Open question:** How do we record click metadata (timestamp, referrer, country) to PostgreSQL in the background without adding any latency to the visitor's redirect?
+**Prompt log:** Generated `utils.py`, `cache.py`, `schemas.py`, `routers/shorten.py`, `routers/redirect.py`, and `main.py`. Instructed mentor to explain all new syntax mechanically from left to right before moving forward.
