@@ -8,7 +8,7 @@ load_dotenv()
 # We get the database URL from environment variables, or default to a local Postgres instance
 DATABASE_URL = os.getenv(
     "DATABASE_URL", 
-    "postgresql://postgres:postgres@localhost:5432/urlshortener"
+    "postgresql://postgres:0610@localhost:5432/urlshortener"
 )
 
 # Engine: the actual connection pool to PostgreSQL
