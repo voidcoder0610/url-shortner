@@ -18,3 +18,11 @@ class URLResponse(BaseModel):
     # Enables Pydantic to read data directly from SQLAlchemy database objects
     class Config:
         from_attributes = True
+
+# Schema for returning detailed click analytics
+class ClickAnalytics(BaseModel):
+    short_code: str
+    long_url: str
+    total_clicks: int
+    referrers: dict[str, int]
+    countries: dict[str, int]
