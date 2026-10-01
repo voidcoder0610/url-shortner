@@ -18,3 +18,10 @@
 **Learned:** Why HTTP 307 Temporary Redirect is essential for URL shorteners (prevents the browser from caching the redirect locally so our server can process every visit). Also learned how SQLAlchemy's `.query().filter().first()` returns `None` on missing records, allowing our `404 Not Found` guard to intercept invalid links cleanly.
 **Open question:** How do we record click metadata (timestamp, referrer, country) to PostgreSQL in the background without adding any latency to the visitor's redirect?
 **Prompt log:** Generated `utils.py`, `cache.py`, `schemas.py`, `routers/shorten.py`, `routers/redirect.py`, and `main.py`. Instructed mentor to explain all new syntax mechanically from left to right before moving forward.
+
+## Day 4 — 1 October 2026
+**Built:** Decoupled click event logging into an asynchronous background task using FastAPI's `BackgroundTasks`, implemented the analytics router in `backend/app/routers/analytics.py` (`GET /analytics/{short_code}`), and verified live that clicking links increments the click count in PostgreSQL without adding any redirect latency.
+**Broke / debugged:** Worked through the tricky Python syntax of SQLAlchemy aggregate queries (`func.count()`, `.group_by()`, and `.scalar() or 0` to prevent `None` returns on fresh links). Clarified why background workers require their own independent `SessionLocal()` database sessions outside the endpoint lifecycle.
+**Learned:** Why the non-negotiable constraint matters: writing to PostgreSQL on disk takes time, and blocking the redirect to write click metadata would degrade performance during viral traffic spikes. `BackgroundTasks` solves this by delivering the HTTP 307 response first, then recording the click metadata in the background.
+**Open question:** How will our frontend dashboard visually represent these analytics, and how will our backend hold up when we deliberately stop Redis during the Day 5 chaos test?
+**Prompt log:** Updated `redirect.py` with `BackgroundTasks` and generated `analytics.py` with the AI mentor. Dissected SQLAlchemy aggregate functions mechanically before testing.
