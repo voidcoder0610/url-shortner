@@ -25,3 +25,14 @@
 **Learned:** Why the non-negotiable constraint matters: writing to PostgreSQL on disk takes time, and blocking the redirect to write click metadata would degrade performance during viral traffic spikes. `BackgroundTasks` solves this by delivering the HTTP 307 response first, then recording the click metadata in the background.
 **Open question:** How will our frontend dashboard visually represent these analytics, and how will our backend hold up when we deliberately stop Redis during the Day 5 chaos test?
 **Prompt log:** Updated `redirect.py` with `BackgroundTasks` and generated `analytics.py` with the AI mentor. Dissected SQLAlchemy aggregate functions mechanically before testing.
+
+## Day 5 — 2 October 2026
+**Built:** Created the React frontend dashboard using Vite (`frontend/src/App.jsx`), enabled CORS middleware in FastAPI, connected the frontend to `/shorten` and `/analytics` endpoints, and completed the Day 5 Chaos Checklist.
+**Broke / debugged:** Debugged a connection error when clicking "Shorten" by diagnosing that full-stack architecture requires two terminal sessions running concurrently (FastAPI backend on port 8000 and Vite React dev server on port 5173).
+**Learned:** Why Cross-Origin Resource Sharing (CORS) is enforced by browsers when frontend and backend run on different ports. Learned how React manages controlled form inputs and component re-rendering using `useState`, and verified how our architecture provides graceful degradation under stress.
+**Chaos Test Results:**
+- [x] Rapid click test: Handled rapid successive visits without redirect latency, and click totals updated accurately on the React dashboard.
+- [x] Ghost link test: Visiting an invalid short code returned a clean HTTP 404 (`{"detail": "Short link not found"}`) rather than an unhandled 500 crash.
+- [x] Redis resiliency test: With `try...except` error boundaries in `cache.py`, cache issues degrade gracefully to PostgreSQL without crashing the API.
+**Open question:** Ready for Demo Day live modifications!
+**Prompt log:** Built React dashboard with the AI mentor in `App.jsx`, added CORS configuration to `main.py`, and verified the 3 Chaos Checklist tests.
